@@ -65,3 +65,8 @@ ul.pager {
     color: #333333;
     cursor: not-allowed;
 }
+
+select {
+  font-size: 0.9rem;
+  padding: 2px 5px;
+}

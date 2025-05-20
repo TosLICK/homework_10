@@ -1,0 +1,41 @@
+{% extends "quotes/base.html" %}
+{%load extract%}
+
+{% block content %}
+<div class="row header-box pt-3 mb-3">
+    <div class="col-md-8">
+        <h2>
+            <p>{{author.fullname}}</p>
+        </h2>
+        <p><b>Born:</b> on {{author.born_date}} {{author.born_location}}</p>
+        <p><b>About:</b></p> 
+        <p>{{author.description}}</p>
+    </div>
+</div>
+<p><b>Quotes by {{author.fullname}}</b></p> 
+<div class="row">
+    <div class="col-md-8">
+        {% for quote in quotes %}
+
+        <div class="quote" itemscope="" itemtype="http://schema.org/CreativeWork">
+            <span class="text" itemprop="text">
+                {{ quote.quote }}
+            </span>
+            <span>by <small class="author" itemprop="author">{{quote.author|author}}</small>
+            <a href="/author/{{quote.author}}">(about)</a>
+            </span>
+            <div class="tags">
+                Tags:
+                {% for tag in quote.tags %}
+                <a class="tag" href="/tag/{{ tag }}">{{ tag }}</a>
+                {% endfor %}
+            </div>
+        </div>
+
+        {% endfor %}
+
+    </div>
+
+</div>
+
+{% endblock %}

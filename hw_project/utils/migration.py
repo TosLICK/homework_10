@@ -30,14 +30,14 @@ for quote in quotes:
         tag_obj, *_ = Tag.objects.get_or_create(name=tag)
         tags.append(tag_obj)
 
-exist_quote = bool(len(Quote.objects.filter(quote=quote['quote'])))
+    exist_quote = bool(len(Quote.objects.filter(quote=quote['quote'])))
 
-if not exist_quote:
-    author = db.authors.find_one({'_id': quote['author']})
-    author_obj = Author.objects.get(fullname=author['fullname'])
-    quote_obj = Quote.objects.create(
-        quote=quote['quote'],
-        author=author_obj
-    )
-    for tag in tags:
-        quote_obj.tags.add(tag)
+    if not exist_quote:
+        author = db.authors.find_one({'_id': quote['author']})
+        author_obj = Author.objects.get(fullname=author['fullname'])
+        quote_obj = Quote.objects.create(
+            quote=quote['quote'],
+            author=author_obj
+        )
+        for tag in tags:
+            quote_obj.tags.add(tag)
