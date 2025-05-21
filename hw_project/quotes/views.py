@@ -52,24 +52,25 @@ def new_quote(request):
         if form.is_valid():
             data = form.cleaned_data
             tags = [tag.strip() for tag in data['tags'].split()]
-            author_id = request.POST.get('author')
-            if author_id:
-                try:
-                    print('author_id:', author_id, type(author_id))
-                    print('all ids:', [str(a.id) for a in authors])
-                    # Приводимо author_id до str (навіть якщо це вже str)
-                    author_obj = MongoAuthor.objects.get(id=str(author_id))
-                    quote = Quote(
-                        quote=data['quote'],
-                        author=author_obj,
-                        tags=tags
-                    )
-                    quote.save()
-                    return redirect(to='quotes:root')
-                except MongoAuthor.DoesNotExist:
-                    form.add_error('author', 'Author not found.')
-            else:
-                form.add_error('author', 'Author is required.')
+            # author_id = request.POST.get('author')
+            author_id = data['author']
+            # if author_id:
+            try:
+                # author_obj = MongoAuthor.objects.get(id=str(author_id))
+                # author_obj = MongoAuthor.objects.get(id=ObjectId(author_id))
+                # author_obj = Author.objects.get(id=author_id)
+                author_obj = MongoAuthor.objects.get(id=author_id)
+                quote = Quote(
+                    quote=data['quote'],
+                    author=author_obj,
+                    tags=tags
+                )
+                quote.save()
+                return redirect(to='quotes:root')
+            except Exception as e:
+                form.add_error('author', f'Author not found or id error: {e}')
+            # else:
+            #     form.add_error('author', 'Author is required.')
         return render(request, 'quotes/new_quote.html', context={'form': form, 'authors': authors})
 
     return render(request, 'quotes/new_quote.html', context={'form': QuoteForm(), 'authors': authors})

@@ -1,4 +1,4 @@
-from django.forms import ModelForm, CharField, TextInput, Textarea, ModelChoiceField
+from django.forms import ModelForm, CharField, TextInput, Textarea, Form
 from .models import Author, Quote
 
 
@@ -12,7 +12,8 @@ class AuthorForm(ModelForm):
         model = Author
         fields = ['fullname', 'born_date', 'born_location', 'description']
 
-class QuoteForm(ModelForm):
+# class QuoteForm(ModelForm):
+class QuoteForm(Form):
     quote = CharField(max_length=300, required=True, widget=TextInput(), label="Quote")
     author = CharField(max_length=100, required=True, widget=TextInput(), label="Author")
     # author = ModelChoiceField(queryset=Author.objects.all(), required=True, label="Author", empty_label="(Nothing)")
